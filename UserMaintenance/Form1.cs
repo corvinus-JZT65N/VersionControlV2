@@ -14,7 +14,8 @@ namespace UserMaintenance
     {
         public Form1()
         {
-            InitializeComponent();
+            InitializeComponent(); //Resource nem működik....
+            
         }
     }
 }
