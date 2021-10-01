@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Gyak2GitV2.Entities
 {
     public class User
