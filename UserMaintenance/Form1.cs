@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 namespace UserMaintenance
 {
     public partial class Form1 : Form
@@ -16,9 +17,9 @@ namespace UserMaintenance
         public Form1()
         {
             InitializeComponent(); //Resource nem működik....
-            listBox1.DataSource = users;
-            listBox1.ValueMember = "ID";
-            listBox1.DisplayMember = "FullName";
+            listBox1.DataSource = Resource1.FullName;
+            listBox1.ValueMember = Resource1.Add;
+            listBox1.DisplayMember = Resource1.Write;
             var u = new User()
             {
                 LastName = txtLastName.Text,
