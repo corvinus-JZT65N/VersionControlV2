@@ -123,4 +123,7 @@
   <data name="LastName" xml:space="preserve">
     <value>Teljes név</value>
   </data>
+  <data name="StreamWriter" xml:space="preserve">
+    <value>Fájlba írás</value>
+  </data>
 </root>
