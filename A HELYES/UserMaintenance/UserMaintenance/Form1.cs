@@ -21,6 +21,9 @@ namespace UserMaintenance
             label1.Text = Resource1.LastName;
             button1.Text = Resource1.Add;
             button2.Text = Resource1.StreamWriter;
+            button3.Text = Resource1.Delete;
+            button3.BackColor = Color.OrangeRed;
+            button3.ForeColor = Color.White;
 
             listBox1.DataSource = users;
             listBox1.ValueMember = "ID";
@@ -60,6 +63,11 @@ namespace UserMaintenance
             }
             
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            users.Remove((User)listBox1.SelectedItem);
         }
     }
 }
