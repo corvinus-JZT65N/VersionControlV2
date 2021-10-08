@@ -64,7 +64,7 @@ namespace Gyak4
             firstColumn.Interior.Color = Color.LightYellow;
 
             lastColumn.Interior.Color = Color.LightGreen;
-            lastColumn.NumberFormat = "0.00";
+            lastColumn.NumberFormat = "#,##0.00";
 
         }
 
