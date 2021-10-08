@@ -17,6 +17,18 @@ namespace Gyak4
 
         RealEstateEntities context = new RealEstateEntities();
         List<Flat> Flats;
+        string[] fejlec = new string[]
+            {
+                "Kód",
+                "Eladó",
+                "Oldal",
+                "Kerület",
+                "Lift",
+                "Szobák száma",
+                "Alapterület (m2)",
+                "Ár (mFt)",
+                "Négyzetméter ár (Ft/m2)"
+            };
 
         Excel.Application xlApp;
         Excel.Workbook xlWB;
@@ -27,7 +39,33 @@ namespace Gyak4
             InitializeComponent();
             LoadData();
             CreateExcel();
-            
+            FormatTable();
+        }
+
+        private void FormatTable()
+        {
+            Excel.Range headerRange = xlSheet.get_Range(GetCell(1, 1), GetCell(1, fejlec.Length));
+            int lastRowID = xlSheet.UsedRange.Rows.Count;
+            Excel.Range tableRange = xlSheet.get_Range(GetCell(2,1), GetCell(lastRowID,fejlec.Length));
+            Excel.Range firstColumn = xlSheet.get_Range(GetCell(2, 1), GetCell(lastRowID, 1));
+            Excel.Range lastColumn = xlSheet.get_Range(GetCell(2, fejlec.Length), GetCell(lastRowID, fejlec.Length));
+
+            headerRange.Font.Bold = true;
+            headerRange.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            headerRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            headerRange.EntireColumn.AutoFit();
+            headerRange.RowHeight = 40;
+            headerRange.Interior.Color = Color.LightBlue;
+            headerRange.BorderAround2(Excel.XlLineStyle.xlContinuous, Excel.XlBorderWeight.xlThick);
+
+            tableRange.BorderAround2(Excel.XlLineStyle.xlContinuous, Excel.XlBorderWeight.xlThick);
+
+            firstColumn.Font.Bold = true;
+            firstColumn.Interior.Color = Color.LightYellow;
+
+            lastColumn.Interior.Color = Color.LightGreen;
+            lastColumn.NumberFormat = "0.00";
+
         }
 
         private void CreateExcel()
@@ -59,25 +97,12 @@ namespace Gyak4
 
         private void CreateTable()
         {
-            string[] fejléc = new string[]
+            for (int i = 0; i < fejlec.Length; i++)
             {
-                "Kód",
-                "Eladó",
-                "Oldal",
-                "Kerület",
-                "Lift",
-                "Szobák száma",
-                "Alapterület (m2)",
-                "Ár (mFt)",
-                "Négyzetméter ár (Ft/m2)"
-            };
-
-            for (int i = 0; i < fejléc.Length; i++)
-            {
-                xlSheet.Cells[1, i+1] = fejléc[i];
+                xlSheet.Cells[1, i+1] = fejlec[i];
             }
 
-            object[,] values = new object[Flats.Count, fejléc.Length];
+            object[,] values = new object[Flats.Count, fejlec.Length];
 
             int counter = 0;
             foreach (var item in Flats)
