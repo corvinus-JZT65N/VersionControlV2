@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace Gyak6
         PortfolioEntities context = new PortfolioEntities();
         List<Tick> Ticks;
         List<PortfolioItem> Portfolio = new List<PortfolioItem>();
+        List<decimal> Nyereségek = new List<decimal>();
 
         public Form1()
         {
@@ -24,7 +26,6 @@ namespace Gyak6
             dataGridView1.DataSource = Ticks;
             CreatePortfolio();
 
-            List<decimal> Nyereségek = new List<decimal>();
             int intervalum = 30;
             DateTime kezdőDátum = (from x in Ticks select x.TradingDay).Min();
             DateTime záróDátum = new DateTime(2016, 12, 30);
@@ -75,7 +76,26 @@ namespace Gyak6
 
         private void SaveFile()
         {
-            SaveFileDialog sf = new SaveFileDialog);
+            SaveFileDialog sf = new SaveFileDialog();
+            sf.Filter = "Text files (*.txt)|*.txt";
+            if (sf.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamWriter sw = new StreamWriter(sf.FileName))
+                {
+                    sw.WriteLine("Időszak | Nyereség");
+                    for (int i = 0; i < Nyereségek.Count; i++)
+                    {
+                        if (i+1 < 10)
+                        {
+                            sw.WriteLine("0" + (i + 1).ToString() + " | " + Nyereségek[i]);
+                        }
+                        else
+                        {
+                            sw.WriteLine((i + 1).ToString() + " | " + Nyereségek[i]);
+                        }
+                    }
+                }
+            }
         }
     }
 }
