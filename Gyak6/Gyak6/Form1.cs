@@ -70,7 +70,12 @@ namespace Gyak6
 
         private void button1_Click(object sender, EventArgs e)
         {
+            SaveFile();
+        }
 
+        private void SaveFile()
+        {
+            SaveFileDialog sf = new SaveFileDialog);
         }
     }
 }
