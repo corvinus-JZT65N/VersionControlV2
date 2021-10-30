@@ -18,20 +18,48 @@ namespace Gyak7
     {
 
         List<RateData> Rates = new List<RateData>();
+        BindingList<string> Currencies = new BindingList<string>();
+        
 
         public Form1()
         {
             InitializeComponent();
+            AvailableCurrencies();
             RefreshData();
+        }
+
+        private void AvailableCurrencies()
+        {
+            var mnbService = new MNBArfolyamServiceSoapClient();
+
+            var request = new GetCurrenciesRequestBody();
+
+            var response = mnbService.GetCurrencies(request);
+            var result = response.GetCurrenciesResult;
+
+            Console.WriteLine(result);
+
+            var xml = new XmlDocument();
+            xml.LoadXml(result);
+
+
+            foreach (XmlElement element in xml.DocumentElement.ChildNodes[0])
+            {
+                string newItem = element.InnerText;
+                Currencies.Add(newItem);
+            }
+
+            comboBox1.DataSource = Currencies;
         }
 
         private void RefreshData()
         {
-            dataGridView1.DataSource = Rates.ToList();
-            chartRateData.DataSource = Rates;
-            Feladat3();
+            Rates.Clear();
+            Feladat3(comboBox1.Text, dateTimePicker1.Value, dateTimePicker2.Value);
             Feladat5();
             Feladat6();
+            dataGridView1.DataSource = Rates.ToList();
+            chartRateData.DataSource = Rates;
         }
 
         private void Feladat6()
@@ -56,7 +84,7 @@ namespace Gyak7
         private void Feladat5()
         {
             var xml = new XmlDocument();
-            xml.LoadXml(Feladat3());
+            xml.LoadXml(Feladat3(comboBox1.Text, dateTimePicker1.Value, dateTimePicker2.Value));
 
 
             foreach (XmlElement element in xml.DocumentElement)
@@ -67,6 +95,8 @@ namespace Gyak7
                 rate.Date = DateTime.Parse(element.GetAttribute("date"));
 
                 var childElement = (XmlElement)element.ChildNodes[0];
+                if (childElement == null)
+                    continue;
                 rate.Currency = childElement.GetAttribute("curr");
 
                 var unit = decimal.Parse(childElement.GetAttribute("unit"));
@@ -76,22 +106,24 @@ namespace Gyak7
             }
         }
 
-        private string Feladat3()
+        private string Feladat3(string currencyNameInput, DateTime startDateInput, DateTime EndDateInput)
         {
             var mnbService = new MNBArfolyamServiceSoapClient();
 
             var request = new GetExchangeRatesRequestBody()
             {
-                currencyNames = "EUR",
-                startDate = "2020-01-01",
-                endDate = "2020-06-30"
+                currencyNames = currencyNameInput,
+                startDate = startDateInput.ToString(),
+                endDate = EndDateInput.ToString()
             };
 
             var response = mnbService.GetExchangeRates(request);
             var result = response.GetExchangeRatesResult;
 
+            Console.WriteLine(result);
+
             return result;
-            //Console.WriteLine(result);
+            
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -105,6 +137,11 @@ namespace Gyak7
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
+
+        private void comboBox1_TextChanged(object sender, EventArgs e)
         {
             RefreshData();
         }
