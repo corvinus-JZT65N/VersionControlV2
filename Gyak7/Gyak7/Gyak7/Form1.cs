@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace Gyak7
 {
@@ -22,10 +23,33 @@ namespace Gyak7
             InitializeComponent();
             dataGridView1.DataSource = Rates.ToList();
             Feladat3();
-            
+            Feladat5();
         }
 
-        private void Feladat3()
+        private void Feladat5()
+        {
+            var xml = new XmlDocument();
+            xml.LoadXml(Feladat3());
+
+
+            foreach (XmlElement element in xml.DocumentElement)
+            {
+                var rate = new RateData();
+                Rates.Add(rate);
+
+                rate.Date = DateTime.Parse(element.GetAttribute("date"));
+
+                var childElement = (XmlElement)element.ChildNodes[0];
+                rate.Currency = childElement.GetAttribute("curr");
+
+                var unit = decimal.Parse(childElement.GetAttribute("unit"));
+                var value = decimal.Parse(childElement.InnerText);
+                if (unit != 0)
+                    rate.Value = value / unit;
+            }
+        }
+
+        private string Feladat3()
         {
             var mnbService = new MNBArfolyamServiceSoapClient();
 
@@ -38,7 +62,9 @@ namespace Gyak7
 
             var response = mnbService.GetExchangeRates(request);
             var result = response.GetExchangeRatesResult;
-            Console.WriteLine(result);
+
+            return result;
+            //Console.WriteLine(result);
         }
     }
 }
