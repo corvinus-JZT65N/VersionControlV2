@@ -15,18 +15,18 @@ namespace Gyak8.Entities
             AutoSize = false;
             Width = 50;
             Height = Width;
-            Paint += Ball_Paint;
+            Paint += Toy_Paint;
 
         }
 
         protected abstract void DrawImage(Graphics g);
 
-        private void Ball_Paint(object sender, PaintEventArgs e)
+        private void Toy_Paint(object sender, PaintEventArgs e)
         {
             DrawImage(e.Graphics);
         }
 
-        public void MoveBall()
+        public void MoveToy()
         {
             Left += 1;
         }

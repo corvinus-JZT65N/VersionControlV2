@@ -1,4 +1,5 @@
-﻿using Gyak8.Entities;
+﻿using Gyak8.Abstractions;
+using Gyak8.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,11 +14,11 @@ namespace Gyak8
 {
     public partial class Form1 : Form
     {
-        List<Ball> _balls = new List<Ball>();
+        List<Toy> _toys = new List<Toy>();
 
-        private BallFactory _factory;
+        private IToyFactory _factory;
 
-        public BallFactory Factory
+        public IToyFactory Factory
         {
             get { return _factory; }
             set { _factory = value; }
@@ -26,24 +27,24 @@ namespace Gyak8
         public Form1()
         {
             InitializeComponent();
-            Factory = new BallFactory();
+            Factory = new CarFactory();
             mainPanel.Width = Width;
         }
 
         private void createTimer_Tick(object sender, EventArgs e)
         {
-            var ball = Factory.CreateNew();
-            _balls.Add(ball);
-            ball.Left = -ball.Width;
-            mainPanel.Controls.Add(ball);
+            var toy = Factory.CreateNew();
+            _toys.Add(toy);
+            toy.Left = -toy.Width;
+            mainPanel.Controls.Add(toy);
         }
 
         private void conveyorTimer_Tick(object sender, EventArgs e)
         {
             int maxPosition = 0;
-            foreach (var item in _balls)
+            foreach (var item in _toys)
             {
-                item.MoveBall();
+                item.MoveToy();
                 if (item.Left > maxPosition)
                 {
                     maxPosition = item.Left;
@@ -52,9 +53,9 @@ namespace Gyak8
 
             if (maxPosition > 1000)
             {
-                var oldestBall = _balls[0];
+                var oldestBall = _toys[0];
                 mainPanel.Controls.Remove(oldestBall);
-                _balls.Remove(oldestBall);
+                _toys.Remove(oldestBall);
             }
         }
     }
