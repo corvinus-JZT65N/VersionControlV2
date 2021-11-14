@@ -83,7 +83,10 @@ namespace Gyak8
 
         private void btnBall_Click(object sender, EventArgs e)
         {
-            Factory = new BallFactory();
+            Factory = new BallFactory
+            {
+                BallColor = btnBall.BackColor
+            };
         }
 
         private void btnColorPicker_Click(object sender, EventArgs e)
