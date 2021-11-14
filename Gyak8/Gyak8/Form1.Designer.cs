@@ -37,6 +37,9 @@ namespace Gyak8
             this.btnCar = new System.Windows.Forms.Button();
             this.btnBall = new System.Windows.Forms.Button();
             this.btnColorPicker = new System.Windows.Forms.Button();
+            this.btnPresent = new System.Windows.Forms.Button();
+            this.btnPresentColorRib = new System.Windows.Forms.Button();
+            this.btnPresentColorBox = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // mainPanel
@@ -96,11 +99,42 @@ namespace Gyak8
             this.btnColorPicker.UseVisualStyleBackColor = true;
             this.btnColorPicker.Click += new System.EventHandler(this.btnColorPicker_Click);
             // 
+            // btnPresent
+            // 
+            this.btnPresent.Location = new System.Drawing.Point(282, 46);
+            this.btnPresent.Name = "btnPresent";
+            this.btnPresent.Size = new System.Drawing.Size(75, 23);
+            this.btnPresent.TabIndex = 5;
+            this.btnPresent.Text = "PRESENT";
+            this.btnPresent.UseVisualStyleBackColor = true;
+            this.btnPresent.Click += new System.EventHandler(this.btnPresent_Click);
+            // 
+            // btnPresentColorRib
+            // 
+            this.btnPresentColorRib.Location = new System.Drawing.Point(378, 23);
+            this.btnPresentColorRib.Name = "btnPresentColorRib";
+            this.btnPresentColorRib.Size = new System.Drawing.Size(26, 23);
+            this.btnPresentColorRib.TabIndex = 6;
+            this.btnPresentColorRib.UseVisualStyleBackColor = true;
+            this.btnPresentColorRib.Click += new System.EventHandler(this.btnColorPicker_Click);
+            // 
+            // btnPresentColorBox
+            // 
+            this.btnPresentColorBox.Location = new System.Drawing.Point(378, 60);
+            this.btnPresentColorBox.Name = "btnPresentColorBox";
+            this.btnPresentColorBox.Size = new System.Drawing.Size(26, 23);
+            this.btnPresentColorBox.TabIndex = 7;
+            this.btnPresentColorBox.UseVisualStyleBackColor = true;
+            this.btnPresentColorBox.Click += new System.EventHandler(this.btnColorPicker_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnPresentColorBox);
+            this.Controls.Add(this.btnPresentColorRib);
+            this.Controls.Add(this.btnPresent);
             this.Controls.Add(this.btnColorPicker);
             this.Controls.Add(this.btnBall);
             this.Controls.Add(this.btnCar);
@@ -122,6 +156,9 @@ namespace Gyak8
         private System.Windows.Forms.Button btnCar;
         private System.Windows.Forms.Button btnBall;
         private System.Windows.Forms.Button btnColorPicker;
+        private System.Windows.Forms.Button btnPresent;
+        private System.Windows.Forms.Button btnPresentColorRib;
+        private System.Windows.Forms.Button btnPresentColorBox;
     }
 }
 

@@ -46,6 +46,8 @@ namespace Gyak8
             Factory = new CarFactory();
             mainPanel.Width = Width;
             btnColorPicker.BackColor = Color.Fuchsia;
+            btnPresentColorRib.BackColor = Color.Fuchsia;
+            btnPresentColorBox.BackColor = Color.Black;
         }
 
         private void createTimer_Tick(object sender, EventArgs e)
@@ -98,6 +100,15 @@ namespace Gyak8
             if (colorPicker.ShowDialog() != DialogResult.OK)
                 return;
             button.BackColor = colorPicker.Color;
+        }
+
+        private void btnPresent_Click(object sender, EventArgs e)
+        {
+            Factory = new PresentFactory
+            {
+                RibbonColor = btnPresentColorRib.BackColor,
+                BoxColor = btnPresentColorBox.BackColor
+            };
         }
     }
 }
