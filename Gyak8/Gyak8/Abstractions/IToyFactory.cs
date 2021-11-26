@@ -9,6 +9,7 @@ namespace Gyak8.Abstractions
 {
     public interface IToyFactory
     {
+       string Név { get; }
         Toy CreateNew();
     }
 }

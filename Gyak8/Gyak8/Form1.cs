@@ -48,6 +48,7 @@ namespace Gyak8
             btnColorPicker.BackColor = Color.Fuchsia;
             btnPresentColorRib.BackColor = Color.Fuchsia;
             btnPresentColorBox.BackColor = Color.Black;
+            
         }
 
         private void createTimer_Tick(object sender, EventArgs e)
