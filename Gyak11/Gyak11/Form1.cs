@@ -15,14 +15,30 @@ namespace Gyak11
     {
         GameController gc = new GameController();
         GameArea ga;
+        Button Btn = new Button();
 
         int populationSize = 100;
         int nbrOfSteps = 10;
         int nbrOfStepsIncrement = 10;
         int generation = 1;
+
+        Brain winnerBrain = null;
         public Form1()
         {
             InitializeComponent();
+
+            Btn.Text = "start";
+            Btn.Top = 331;
+            Btn.Left = 331;
+            Btn.Width = 80;
+            Btn.Height = 80;
+
+            Btn.Visible = false;
+            Btn.Enabled = false;
+            button1.Visible = false;
+            button1.Enabled = false;
+
+            this.Controls.Add(Btn); //valami miatt mindenképp disabled.. Rákerestem, de ott nem volt megoldás.
 
             ga = gc.ActivateDisplay();
             this.Controls.Add(ga);
@@ -40,6 +56,15 @@ namespace Gyak11
             }
             gc.Start();
 
+        }
+
+        private void Btn_Click(object sender, EventArgs e)
+        {
+            gc.ResetCurrentLevel();
+            gc.AddPlayer(winnerBrain.Clone());
+            gc.AddPlayer();
+            ga.Focus();
+            gc.Start(true);
         }
 
         private void Gc_GameOver(object sender)
@@ -69,7 +94,44 @@ namespace Gyak11
                 else
                     gc.AddPlayer(b.Mutate());
             }
-            gc.Start();
+
+            var winners = from p in topPerformers
+                          where !p.IsWinner
+                          select p;
+
+            if (winners.Count() > 0)
+            {
+                winnerBrain = winners.FirstOrDefault().Brain.Clone();
+                gc.GameOver -= Gc_GameOver;
+
+                Btn.Update();
+                Application.DoEvents();
+
+                Btn.Visible = true;
+                Btn.Enabled = true;
+
+                Btn.Update();
+                Application.DoEvents();
+
+
+                button1.Visible = true;
+                button1.Enabled = true;
+
+
+                Btn.Focus();
+                Btn.BringToFront();
+                return;
+            }
+                gc.Start();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            gc.ResetCurrentLevel();
+            gc.AddPlayer(winnerBrain.Clone());
+            gc.AddPlayer();
+            ga.Focus();
+            gc.Start(true);
         }
     }
 }
